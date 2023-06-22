@@ -7,6 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.preprocessing import StandardScaler
+import time
 
 
 app = Flask(__name__)
@@ -27,7 +28,12 @@ def foo(arr):
     # Apply Polynomial Features
     X = poly.fit_transform(arr)
     X = scaler.fit_transform(X)
+    start_time = time.time()  # Başlangıç zamanını kaydet
     predicted_labels = loaded_model.predict(X)
+    end_time = time.time()  # Bitiş zamanını kaydet
+    total_time = (end_time - start_time) * 1000  # Süreyi milisaniyeye dönüştür
+    print("Fonksiyon süresi: {} ms".format(total_time))
+
     predicted_classes = label_encoder.inverse_transform(predicted_labels)
     for i in predicted_classes:
         if i == "comp0":
